@@ -25,21 +25,41 @@ document
   .getElementById("calculator")
   .addEventListener("click", function (event) {
     const numberTyped = event.target.innerText;
+    // numberTyped এটা হচ্ছে click করার সময়ের ভ্যালু
     const calField = document.getElementById("calculator-field");
-    const numberTypedValue = calField.value;
-    console.log(numberTypedValue);
+
+    const previousTypedNumber = calField.value;
+    // calField.value এটা হচ্ছে ফাকা ঘর বা click -এর আগের ভ্যালু previousTypedNumber
+    // console.log(previousTypedNumber);
 
     if (isNaN(numberTyped)) {
       if (numberTyped === "C") {
         calField.value = "";
       } else if (numberTyped === "<") {
-        const digits = numberTypedValue.split("");
+        const digits = previousTypedNumber.split("");
         digits.pop();
         const remainingDigits = digits.join("");
         calField.value = remainingDigits;
       }
     } else {
-      const newTypedNumber = numberTypedValue + numberTyped;
+      const newTypedNumber = previousTypedNumber + numberTyped;
+      // click -এর আগের ভ্যালু previousTypedNumber এবং click করার সময়ের ভ্যালু ২টা এখানে যোগ করে পাশাপাশি বসানো হয়েছে।
       calField.value = newTypedNumber;
     }
   });
+
+document.getElementById("verify-pin").addEventListener("click", function () {
+  const pinGen = document.getElementById("pin-field").value;
+  const typedPin = document.getElementById("calculator-field").value;
+
+  const pinSucceeded = document.getElementById("pin-success");
+  const pinFailed = document.getElementById("pin-failed");
+
+  if (pinGen === typedPin) {
+    pinSucceeded.style.display = "block";
+    pinFailed.style.display = "none";
+  } else {
+    pinFailed.style.display = "block";
+    pinSucceeded.style.display = "none";
+  }
+});
